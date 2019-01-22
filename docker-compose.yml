@@ -1,0 +1,49 @@
+version: '3'
+services:
+  data-loader:
+    build: ./
+    depends_on: ["influxdb"]
+    command:
+    - sh
+    - -ceux
+    - |
+      cp /mounts/browser-profiles/*/places.sqlite /tmp/places.sqlite
+      strings /mounts/zsh_history > /tmp/zsh_history
+
+      sqlite3 /tmp/places.sqlite <<!
+      .headers off
+      .mode csv
+      .output /tmp/browser-history.csv
+      select visit_date from moz_historyvisits;
+      !
+
+      /mounts/load_activity.py
+
+      rm -f /tmp/places.sqlite /tmp/zsh_history /tmp/browser-history.csv
+
+    environment:
+      BROWSER_TIMESTAMP_CSV: "/tmp/browser-history.csv"
+      ZSH_HISTORY_FILE: "/tmp/zsh_history"
+      INFLUXDB_SERVER: "http://influxdb:8086"
+    volumes:
+    - "./load_activity.py:/mounts/load_activity.py:ro"
+    - "~/Library/Application Support/Firefox/Profiles:/mounts/browser-profiles:ro"
+    - "~/.zsh_history:/mounts/zsh_history:ro"
+
+  influxdb:
+    image: "influxdb:1.5"
+    ports:
+    - 8086:8086
+
+  grafana:
+    image: "grafana/grafana"
+    depends_on: ["influxdb"]
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin1
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+    ports:
+    - "3000:3000"
+    volumes:
+    - "./gf-datasource.yml:/etc/grafana/provisioning/datasources/datasources.yml:ro"
+    - "./gf-dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml:ro"
+    - "./gf-dashboard.json:/etc/grafana/dashboards/dashboard.json:ro"
