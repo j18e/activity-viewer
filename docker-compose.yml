@@ -9,22 +9,12 @@ services:
     - |
       cp /mounts/browser-profiles/*/places.sqlite /tmp/places.sqlite
       strings /mounts/zsh_history > /tmp/zsh_history
-
-      sqlite3 /tmp/places.sqlite <<!
-      .headers off
-      .mode csv
-      .output /tmp/browser-history.csv
-      select visit_date from moz_historyvisits;
-      !
-
       /mounts/load_activity.py
-
-      rm -f /tmp/places.sqlite /tmp/zsh_history /tmp/browser-history.csv
+      rm -f /tmp/places.sqlite /tmp/zsh_history
 
     environment:
-      BROWSER_TIMESTAMP_CSV: "/tmp/browser-history.csv"
+      BROWSER_DB_FILE: "/tmp/places.sqlite"
       ZSH_HISTORY_FILE: "/tmp/zsh_history"
-      INFLUXDB_SERVER: "http://influxdb:8086"
       INFLUXDB_HOST: "influxdb"
     volumes:
     - "./load_activity.py:/mounts/load_activity.py:ro"
@@ -48,3 +38,4 @@ services:
     - "./gf-datasource.yml:/etc/grafana/provisioning/datasources/datasources.yml:ro"
     - "./gf-dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml:ro"
     - "./gf-dashboard.json:/etc/grafana/dashboards/dashboard.json:ro"
+
