@@ -15,7 +15,6 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 1,
   "links": [],
   "panels": [
     {
@@ -207,7 +206,7 @@
     "list": []
   },
   "time": {
-    "from": "now/w",
+    "from": "now/w+1d",
     "to": "now"
   },
   "timepicker": {
