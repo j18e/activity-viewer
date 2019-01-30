@@ -25,6 +25,7 @@ services:
       BROWSER_TIMESTAMP_CSV: "/tmp/browser-history.csv"
       ZSH_HISTORY_FILE: "/tmp/zsh_history"
       INFLUXDB_SERVER: "http://influxdb:8086"
+      INFLUXDB_HOST: "influxdb"
     volumes:
     - "./load_activity.py:/mounts/load_activity.py:ro"
     - "~/Library/Application Support/Firefox/Profiles:/mounts/browser-profiles:ro"
