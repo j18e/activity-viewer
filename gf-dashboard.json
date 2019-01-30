@@ -23,7 +23,6 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
       "fill": 1,
       "gridPos": {
         "h": 15,
@@ -134,6 +133,32 @@
       ],
       "thresholds": [],
       "timeFrom": null,
+      "timeRegions": [
+        {
+          "colorMode": "red",
+          "fill": true,
+          "fromDayOfWeek": 1,
+          "line": false,
+          "op": "time",
+          "toDayOfWeek": 1
+        },
+        {
+          "colorMode": "green",
+          "fill": true,
+          "fromDayOfWeek": 3,
+          "line": false,
+          "op": "time",
+          "toDayOfWeek": 3
+        },
+        {
+          "colorMode": "blue",
+          "fill": true,
+          "fromDayOfWeek": 5,
+          "line": false,
+          "op": "time",
+          "toDayOfWeek": 5
+        }
+      ],
       "timeShift": null,
       "title": "",
       "tooltip": {
