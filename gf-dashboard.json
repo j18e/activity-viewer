@@ -208,7 +208,7 @@
       },
       "id": 4,
       "links": [],
-      "pageSize": null,
+      "pageSize": 500,
       "scroll": true,
       "showHeader": true,
       "sort": {
@@ -273,7 +273,7 @@
       },
       "id": 5,
       "links": [],
-      "pageSize": null,
+      "pageSize": 500,
       "scroll": true,
       "showHeader": true,
       "sort": {
